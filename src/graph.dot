@@ -1,0 +1,2 @@
+graph my_graph {
+node [ fontname = Arial, style="filled,setlinewidth(4)", shape=circle ]

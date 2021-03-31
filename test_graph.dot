@@ -1,0 +1,16 @@
+graph my_graph {
+    node [ fontname = Arial, style="filled,setlinewidth(4)",
+    shape=circle ]
+    node0 [ label = "A" color="#4040f040" fillcolor="#40f04040" ]
+    node3 [ label = "D" color="#40f04040" ]
+    node4 [ label = "E" color="#f0404040" ]
+    node5 [ label = "F" color="#4040f040" ]
+    node6 [ label = "G" ]
+    node8 [ label = "I" ]
+    node9 [ label = "J" ]
+    node10 [ label = "K" ]
+    node11 [ label = "L" ]
+
+    node0 -- node4 [ style=dashed ]
+    node0 -- node5 [ color="#40404040", style=dashed ]
+}
