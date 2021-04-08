@@ -18,8 +18,6 @@ def connect_matrix(adj_matrix):
             if i not in visited_nodes:
                 adj_matrix[i][visited_nodes[len(visited_nodes) - 1]] = 1
                 adj_matrix[visited_nodes[len(visited_nodes) - 1]][i] = 1
-                # adj_matrix[i][0] = 1
-                # adj_matrix[0][i] = 1
                 stack.append(i)
                 break
 

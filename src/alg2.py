@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 import generate_dot as gd
 import connect_matrix as cm
+import vertex_cover as vc
 import random
 import os
 
@@ -16,8 +17,16 @@ probability_column = [
         sg.In(size=(25, 1), enable_events=True, key="-PROBABILITY-"),
     ],
     [
+        sg.Text("Nr of vertices for vertex cover"),
+        sg.In(size=(25, 1), enable_events=True, key="-VERTICES_COVER-"),
+    ],
+    [
         sg.Button("Generate", enable_events=True, key="-GENERATE-"),
-        sg.Button("Connect", enable_events=True, key="-CONNECT-")
+        sg.Button("Connect", enable_events=True, key="-CONNECT-"), 
+        sg.Button("Vertex cover", enable_events=True, key="-COVER-")
+    ],
+    [
+        sg.Text("", key="-STATUS-", text_color="red"),
     ]
 ]
 
@@ -71,6 +80,17 @@ while True:
 
         os.system('dot -Tpng -o../img/connected_graph.png ../dotfiles/connected_graph.dot')
         window["-IMAGE-"].update(filename="../img/connected_graph.png")
+
+    elif event == "-COVER-":
+        #window["-STATUS-"].update(str(vc.cover_check(adjacency_matrix, int(values["-VERTICES_COVER-"]))))
+        if len(vc.cover_check(adjacency_matrix, int(values["-VERTICES_COVER-"]))) > 0:
+            f = open("../dotfiles/covered_graph.dot", "w")
+            graphviz_text = gd.generate_dot_with_cover(adjacency_matrix, vc.cover_check(adjacency_matrix, int(values["-VERTICES_COVER-"])))
+            f.write(graphviz_text)
+            f.close()
+
+            os.system('dot -Tpng -o../img/covered_graph.png ../dotfiles/covered_graph.dot')
+            window["-IMAGE-"].update(filename="../img/covered_graph.png")
 
 
 window.close()
