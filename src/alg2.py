@@ -26,7 +26,10 @@ probability_column = [
         sg.Button("Vertex cover", enable_events=True, key="-COVER-")
     ],
     [
-        sg.Text("", key="-STATUS-", text_color="red"),
+        sg.Text("",key="-STATUS-", text_color="red",size=(51, 1)),
+    ],
+    [
+        sg.ProgressBar(1000, orientation='h', size=(20,20), key='-PROG-'),
     ]
 ]
 
@@ -82,15 +85,21 @@ while True:
         window["-IMAGE-"].update(filename="../img/connected_graph.png")
 
     elif event == "-COVER-":
+        window["-STATUS-"].update('')
         #window["-STATUS-"].update(str(vc.cover_check(adjacency_matrix, int(values["-VERTICES_COVER-"]))))
-        if len(vc.cover_check(adjacency_matrix, int(values["-VERTICES_COVER-"]))) > 0:
+        cover = vc.cover_check(adjacency_matrix,int(values["-VERTICES_COVER-"]))
+
+        if len(cover) > 0:
             f = open("../dotfiles/covered_graph.dot", "w")
-            graphviz_text = gd.generate_dot_with_cover(adjacency_matrix, vc.cover_check(adjacency_matrix, int(values["-VERTICES_COVER-"])))
+            graphviz_text = gd.generate_dot_with_cover(adjacency_matrix, cover)
             f.write(graphviz_text)
             f.close()
 
             os.system('dot -Tpng -o../img/covered_graph.png ../dotfiles/covered_graph.dot')
             window["-IMAGE-"].update(filename="../img/covered_graph.png")
+
+        else:
+            window["-STATUS-"].update('There is no vertex cover with the selected number of vertices')
 
 
 window.close()
