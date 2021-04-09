@@ -27,9 +27,6 @@ probability_column = [
     ],
     [
         sg.Text("",key="-STATUS-", text_color="red",size=(51, 1)),
-    ],
-    [
-        sg.ProgressBar(1000, orientation='h', size=(20,20), key='-PROG-'),
     ]
 ]
 
