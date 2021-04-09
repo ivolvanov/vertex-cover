@@ -1,2 +1,4 @@
 src/__pychache__
 .vscode
+img/*
+dotfiles/*

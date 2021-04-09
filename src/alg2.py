@@ -85,8 +85,7 @@ while True:
         window["-IMAGE-"].update(filename="../img/connected_graph.png")
 
     elif event == "-COVER-":
-        window["-STATUS-"].update('')
-        #window["-STATUS-"].update(str(vc.cover_check(adjacency_matrix, int(values["-VERTICES_COVER-"]))))
+        window["-STATUS-"].update('')        
         cover = vc.cover_check(adjacency_matrix,int(values["-VERTICES_COVER-"]))
 
         if len(cover) > 0:
@@ -100,6 +99,5 @@ while True:
 
         else:
             window["-STATUS-"].update('There is no vertex cover with the selected number of vertices')
-
 
 window.close()
