@@ -1,15 +1,14 @@
-from itertools import product
+from itertools import combinations
 import copy
 
 
 def __generate_all_covers__(matrix_size, cover_size):
-    combinations = []
+    combos = []
 
-    for assignment in product(list(range(matrix_size)), repeat=cover_size):
-        if len(set(assignment)) == cover_size and set(assignment) not in combinations:
-            combinations.append(set(assignment))
+    for assignment in list(combinations(range(matrix_size), cover_size)):
+        combos.append(assignment)
 
-    return combinations
+    return combos
 
 
 def __is_cover_valid__(adj_matrix_arg):
@@ -25,7 +24,7 @@ def cover_check(adj_matrix, cover_size):
     combinations = __generate_all_covers__(len(adj_matrix), cover_size)
     index_comb = len(combinations)
     for combo in combinations:
-        #alg2.window["-PROG-"].update((index_comb/len(combinations))*1000)
+        
         local_matrix = copy.deepcopy(adj_matrix)
         for i in combo:
             for j in range(len(local_matrix)):
@@ -40,5 +39,3 @@ def cover_check(adj_matrix, cover_size):
     return set()
 
 #graph = [[0, 1, 0, 0, 1], [1, 0, 1, 1, 0], [0, 1, 0, 1, 0], [0, 1, 1, 0, 1], [1, 0, 0, 1, 0]]
-
-#cover_check(graph,5)
