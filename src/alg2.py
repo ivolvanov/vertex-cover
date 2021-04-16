@@ -4,6 +4,7 @@ import connect_matrix as cm
 import vertex_cover as vc
 import random
 import os
+import asyncio
 
 adjacency_matrix = []
 
@@ -81,8 +82,8 @@ while True:
         os.system('dot -Tpng -o../img/connected_graph.png ../dotfiles/connected_graph.dot')
         window["-IMAGE-"].update(filename="../img/connected_graph.png")
 
-    elif event == "-COVER-":
-        window["-STATUS-"].update('')        
+    elif event == "-COVER-": 
+        window["-STATUS-"].update('Searching...')  
         cover = vc.cover_check(adjacency_matrix,int(values["-VERTICES_COVER-"]))
 
         if len(cover) > 0:
