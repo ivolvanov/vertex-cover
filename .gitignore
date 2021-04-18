@@ -1,5 +1,5 @@
 src/__pycache__
 src/.vscode
 .vscode
-img/*
-dotfiles/*
+img/*.png
+dotfiles/*.dot
