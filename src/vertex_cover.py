@@ -37,5 +37,3 @@ def cover_check(adj_matrix, cover_size):
             return combo
 
     return set()
-
-#graph = [[0, 1, 0, 0, 1], [1, 0, 1, 1, 0], [0, 1, 0, 1, 0], [0, 1, 1, 0, 1], [1, 0, 0, 1, 0]]
