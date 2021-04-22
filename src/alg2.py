@@ -25,7 +25,8 @@ probability_column = [
     [
         sg.Button("Generate", enable_events=True, key="-GENERATE-"),
         sg.Button("Connect", enable_events=True, key="-CONNECT-"), 
-        sg.Button("Vertex cover", enable_events=True, key="-COVER-")
+        sg.Button("Vertex cover", enable_events=True, key="-COVER-"),
+        sg.Button("Smart vertex cover", enable_events=True, key="-SMART_COVER-")
     ],
     [
         sg.Text("",key="-STATUS-", text_color="red",size=(51, 1)),
@@ -147,6 +148,22 @@ while True:
 
         os.system('dot -Tpng -o../img/kernelized_graph.png ../dotfiles/kernelized_graph.dot')
         window["-IMAGE-"].update(filename="../img/kernelized_graph.png")
+    
+    elif event == "-SMART_COVER-":
+        print(adjacency_matrix)
+        cover = vc.smart_cover(adjacency_matrix,int(values["-VERTICES_COVER-"]))
+
+        if len(cover) > 0:
+            f = open("../dotfiles/smart_covered_graph.dot", "w")
+            graphviz_text = gd.generate_dot_with_cover(adjacency_matrix, cover)
+            f.write(graphviz_text)
+            f.close()
+
+            os.system('dot -Tpng -o../img/smart_covered_graph.png ../dotfiles/smart_covered_graph.dot')
+            window["-IMAGE-"].update(filename="../img/smart_covered_graph.png")
+
+        else:
+            window["-STATUS-"].update('There is no vertex cover with the selected number of vertices')
 
 
 window.close()
