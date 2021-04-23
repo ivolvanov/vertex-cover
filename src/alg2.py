@@ -96,7 +96,7 @@ while True:
         window["-IMAGE-"].update(filename="../img/connected_graph.png")
 
     elif event == "-COVER-":  
-        cover = vc.cover_check(adjacency_matrix,int(values["-VERTICES_COVER-"]))
+        cover = vc.cover_check(adjacency_matrix,int(values["-VERTICES_COVER-"]), [])
 
         if len(cover) > 0:
             f = open("../dotfiles/covered_graph.dot", "w")

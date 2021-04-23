@@ -20,14 +20,17 @@ def __is_cover_valid__(adj_matrix_arg):
 
     return True
 
-def cover_check(adj_matrix, cover_size):
+def cover_check(adj_matrix, cover_size, already_in_cover):
     if len(adj_matrix) == 0:
         return set()
 
     combo_items = []
-    for i in adj_matrix:
-        if 1 in i:
-            combo_items.append(adj_matrix.index(i))
+    # for i in adj_matrix:
+    #     if 1 in i:
+    #         combo_items.append(adj_matrix.index(i))
+    for i in range(len(adj_matrix)):
+        if i not in already_in_cover:
+            combo_items.append(i)
     
     combinations = __generate_all_covers__(combo_items, cover_size)
 
@@ -82,24 +85,12 @@ def smart_cover(adj_matrix, k):
     if k-len(cover) <= 0:
         return set()
 
-    rest_of_cover = cover_check(local_matrix, k - len(cover))
+    rest_of_cover = cover_check(local_matrix, k - len(cover), cover)
     if len(rest_of_cover) > 0:
         cover.update(rest_of_cover)
+        return cover
     else:
         return set()
-
-    if len(cover) == k:
-        return cover
-    elif len(cover) < k:
-        added_pendants = 0
-        added_isolated = 0
-        while len(cover) < k:
-            if added_pendants == len(pendant):
-                cover.add(isolated[added_isolated])
-                added_isolated += 1
-            else:
-                cover.add(pendant[added_pendants])
-                added_pendants += 1
 
 
 graph = [[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]]
