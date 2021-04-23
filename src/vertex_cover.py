@@ -1,17 +1,9 @@
 from itertools import combinations
 import kernelization
 import copy
+import random
 
-
-def __generate_all_covers__(matrix_size, cover_size):
-    combos = []
-
-    for assignment in list(combinations(range(matrix_size), cover_size)):
-        combos.append(assignment)
-
-    return combos
-
-def __generate_all_covers2__(items, cover_size):
+def __generate_all_covers__(items, cover_size):
     combos = []
 
     for assignment in list(combinations(items, cover_size)):
@@ -36,19 +28,15 @@ def cover_check(adj_matrix, cover_size):
     for i in adj_matrix:
         if 1 in i:
             combo_items.append(adj_matrix.index(i))
-
     
-    combinations = __generate_all_covers2__(combo_items, cover_size)
-    index_comb = len(combinations)
-    for combo in combinations:
-        
+    combinations = __generate_all_covers__(combo_items, cover_size)
+
+    for combo in combinations:        
         local_matrix = copy.deepcopy(adj_matrix)
         for i in combo:
             for j in range(len(local_matrix)):
                 local_matrix[i][j] = 0
                 local_matrix[j][i] = 0
-
-        index_comb -= 1
         
         if __is_cover_valid__(local_matrix) == True:
             return combo
@@ -93,16 +81,29 @@ def smart_cover(adj_matrix, k):
 
     if k-len(cover) <= 0:
         return set()
-    cover.update(cover_check(local_matrix, k - len(cover)))
 
-    if len(cover) == k:
-        return cover
+    rest_of_cover = cover_check(local_matrix, k - len(cover))
+    if len(rest_of_cover) > 0:
+        cover.update(rest_of_cover)
     else:
         return set()
 
+    if len(cover) == k:
+        return cover
+    elif len(cover) < k:
+        added_pendants = 0
+        added_isolated = 0
+        while len(cover) < k:
+            if added_pendants == len(pendant):
+                cover.add(isolated[added_isolated])
+                added_isolated += 1
+            else:
+                cover.add(pendant[added_pendants])
+                added_pendants += 1
 
-graph = [[0, 0, 1, 0, 0, 0, 0, 0, 1, 1], [0, 0, 0, 0, 0, 1, 1, 0, 0, 0], [1, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 1, 1, 0, 0, 1, 1], [0, 0, 0, 1, 0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 0, 0, 1, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1, 0, 0, 0, 0], [1, 0, 0, 1, 0, 0, 0, 0, 0, 0], [1, 0, 0, 1, 0, 0, 1, 0, 0, 0]]
-print(smart_cover(graph,4))
+
+graph = [[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]]
+print(smart_cover(graph,13))
 
 
 
