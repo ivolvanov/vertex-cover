@@ -110,6 +110,13 @@ while True:
             window["-IMAGE-"].update(filename="../img/covered_graph.png")
 
         else:
+            graphviz_text = gd.generate_dot(adjacency_matrix)
+            f = open("../dotfiles/graph.dot", "w")
+            f.write(graphviz_text)
+            f.close()
+
+            os.system('dot -Tpng -o../img/graph.png ../dotfiles/graph.dot')
+            window["-IMAGE-"].update(filename="../img/graph.png")
             window["-STATUS-"].update('There is no vertex cover with the selected number of vertices')
 
     elif event == "-P++-":
@@ -165,6 +172,13 @@ while True:
             window["-IMAGE-"].update(filename="../img/smart_covered_graph.png")
 
         else:
+            graphviz_text = gd.generate_dot(adjacency_matrix)
+            f = open("../dotfiles/graph.dot", "w")
+            f.write(graphviz_text)
+            f.close()
+
+            os.system('dot -Tpng -o../img/graph.png ../dotfiles/graph.dot')
+            window["-IMAGE-"].update(filename="../img/graph.png")
             window["-STATUS-"].update('There is no vertex cover with the selected number of vertices')
 
     elif event == "-TAKE2-":
