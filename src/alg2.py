@@ -3,6 +3,7 @@ import generate_dot as gd
 import connect_matrix as cm
 import vertex_cover as vc
 import kernelization as kz
+import approximation as ap
 import random
 import os
 import asyncio
@@ -26,7 +27,8 @@ probability_column = [
         sg.Button("Generate", enable_events=True, key="-GENERATE-"),
         sg.Button("Connect", enable_events=True, key="-CONNECT-"), 
         sg.Button("Vertex cover", enable_events=True, key="-COVER-"),
-        sg.Button("Smart vertex cover", enable_events=True, key="-SMART_COVER-")
+        sg.Button("Smart vertex cover", enable_events=True, key="-SMART_COVER-"),
+        sg.Button("take 2", enable_events=True, key="-TAKE2-")
     ],
     [
         sg.Text("",key="-STATUS-", text_color="red",size=(51, 1)),
@@ -150,7 +152,7 @@ while True:
         window["-IMAGE-"].update(filename="../img/kernelized_graph.png")
     
     elif event == "-SMART_COVER-":
-        print(adjacency_matrix)
+
         cover = vc.smart_cover(adjacency_matrix,int(values["-VERTICES_COVER-"]))
 
         if len(cover) > 0:
@@ -164,6 +166,19 @@ while True:
 
         else:
             window["-STATUS-"].update('There is no vertex cover with the selected number of vertices')
+
+    elif event == "-TAKE2-":
+        
+        cover = ap.take2(adjacency_matrix)
+
+       
+        f = open("../dotfiles/covered_graph.dot", "w")
+        graphviz_text = gd.generate_dot_with_cover(adjacency_matrix, cover)
+        f.write(graphviz_text)
+        f.close()
+
+        os.system('dot -Tpng -o../img/covered_graph.png ../dotfiles/covered_graph.dot')
+        window["-IMAGE-"].update(filename="../img/covered_graph.png")
 
 
 window.close()
