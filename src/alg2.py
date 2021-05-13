@@ -28,7 +28,15 @@ probability_column = [
         sg.Button("Connect", enable_events=True, key="-CONNECT-"), 
         sg.Button("Vertex cover", enable_events=True, key="-COVER-"),
         sg.Button("Smart vertex cover", enable_events=True, key="-SMART_COVER-"),
-        sg.Button("take 2", enable_events=True, key="-TAKE2-")
+        
+    ],
+    [
+        sg.Text("Approximation algorithms")
+    ],
+    [
+        
+        sg.Button("take 2", enable_events=True, key="-TAKE2-"),
+        sg.Button("greedy", enable_events=True, key="-GREEDY-")
     ],
     [
         sg.Text("",key="-STATUS-", text_color="red",size=(51, 1)),
@@ -82,6 +90,8 @@ while True:
         graphviz_text = gd.generate_dot(adjacency_matrix)
         f.write(graphviz_text)
         f.close()
+
+        print(adjacency_matrix)
 
         os.system('dot -Tpng -o../img/graph.png ../dotfiles/graph.dot')
         window["-IMAGE-"].update(filename="../img/graph.png")
@@ -193,6 +203,24 @@ while True:
 
         os.system('dot -Tpng -o../img/covered_graph.png ../dotfiles/covered_graph.dot')
         window["-IMAGE-"].update(filename="../img/covered_graph.png")
+
+        window["-STATUS-"].update('')
+
+
+    elif event == "-GREEDY-":
+        
+        cover = ap.greedy(adjacency_matrix)
+
+       
+        f = open("../dotfiles/covered_graph.dot", "w")
+        graphviz_text = gd.generate_dot_with_cover(adjacency_matrix, cover)
+        f.write(graphviz_text)
+        f.close()
+
+        os.system('dot -Tpng -o../img/covered_graph.png ../dotfiles/covered_graph.dot')
+        window["-IMAGE-"].update(filename="../img/covered_graph.png")
+
+        window["-STATUS-"].update('')
 
 
 window.close()
